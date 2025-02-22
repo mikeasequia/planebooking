@@ -1,0 +1,37 @@
+
+.flight-info-modal{
+    .modal-content{
+        .modal-header{
+            .modal-title{
+                margin-top: 0;
+            }
+        }
+        .modal-body{
+            .has-icon-input{
+                padding-right: 57px !important;
+            }
+            .fa-lock{
+                top: 7px;
+            }
+            .alert {
+                padding: 0.2rem;
+                margin-bottom: 0;
+            }
+
+            .btn {
+                margin: 20px 5px 5px;
+            }
+
+            .airport-link, 
+            .plane-link {
+                color: red;
+
+                &:hover {
+                    color: lighten(red, 15%);
+                }
+            }
+        }
+    }
+}
+
+

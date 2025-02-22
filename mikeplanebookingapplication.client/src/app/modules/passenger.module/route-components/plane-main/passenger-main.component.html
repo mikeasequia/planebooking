@@ -1,0 +1,15 @@
+<div class="card-body passenger-body">
+    <div class="header">
+        <h3>List of Passenger Bookings</h3>
+        <button class="btn btn-info btn-sm add-passenger" (click)="AddPassenger()">Add</button>
+    </div>
+    <table datatable id="passengers_table" [dtOptions]="dtOptions" class="display table table-bordered table-hover" style="width:100%">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Flight</th>
+          <th class="dt-head-center">Action</th>
+        </tr>
+      </thead>
+    </table>
+</div>

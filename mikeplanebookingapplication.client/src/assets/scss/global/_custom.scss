@@ -1,0 +1,224 @@
+.custom-control-checkbox {
+  position: relative;
+  padding-left: 20px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    top: 5px;
+    left: 5px;
+  }
+
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    background-color: #dddada;
+    margin-bottom: 0px;
+  }
+
+  /* On mouse-over, add a grey background color */
+  /*&:hover input~.checkmark {
+    background-color: #857f7f;
+  }*/
+
+  /* When the checkbox is checked, add a blue background */
+  input:checked~.checkmark {
+    background-color: $theme-bg;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  input:checked~.checkmark:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+}
+
+@media not all and (min-resolution: .0001dpcm){
+    @supports (-webkit-appearance: none){
+
+        .sel-bank, .month, .country, .state, .state-issue, .select-daytype{
+            height: 38px !important;
+            padding-top: 1.5px !important;
+        }
+    }
+}
+
+/*@media not all and (min-resolution: .0001dpcm) {
+  @supports (-webkit-appearance: none) {
+    .profile-transactions {
+      select {
+        color: red !important;
+      }
+
+      .select-daytype {
+        color: green !important;
+      }
+    }
+
+    .select-daytype {
+      color: blueviolet !important;
+    }
+  }
+}*/
+
+.custom-control-radio {
+  position: relative;
+  padding-left: 25px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  /* Hide the browser's default radio button */
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  /* Create a custom radio button */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+  }
+
+  /* On mouse-over, add a grey background color */
+  /*&:hover input~.checkmark {
+    background-color: #ccc;
+  }*/
+
+  /* When the radio button is checked, add a blue background */
+  input:checked~.checkmark {
+    background-color: $theme-bg;
+  }
+
+  /* Create the indicator (the dot/circle - hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the indicator (dot/circle) when checked */
+  input:checked~.checkmark:after {
+    display: block;
+  }
+
+  /* Style the indicator (dot/circle) */
+  .checkmark:after {
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+  }
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.box {
+  position: relative;
+}
+
+
+
+.okay-button {
+  display: flex !important;
+  position: absolute !important;
+  font-size: 13px !important;
+  background-color: transparent;
+  border: 1px solid #18ce0f;
+  color: #010f1f !important;
+  text-shadow: none !important; 
+  right: 115px !important;
+  bottom: 10px !important;
+  padding: 2px 20px !important;
+  &:hover {
+    color: white !important;
+    border: 1px solid white;
+    background-color: #4dff67  !important;
+  }
+}
+
+.rejected-prompt-btn {
+  bottom: 5% !important;
+}
+
+
+.toastr-partially-accepted, .toastr-rejected-bet, .toastr-confirm-bet {
+  height: 100%;
+  cursor: no-drop;
+}
+
+#toastr-container.toastr-cancelled-bet {
+  .toastr-custom {
+    width: 310px !important;
+  }
+} 
+
+@media (min-width: 241px) and (max-width: 480px) {
+  #toastr-container .toastr-close-button {
+    top: -0.7em !important;
+  }
+}
+
+.bet-confirm-btn-div {
+  display: flex !important;
+  position: absolute !important;
+  right: 35px !important;
+  bottom: 8% !important;
+  padding: 0px !important;
+  margin-top: 20px;
+}
+
+.to-message {
+  line-height: normal !important;
+}
+
+#swal2-content {
+  padding: 0 15px;
+  color: black;
+  font-weight: 400;
+}
+
+
+input.form-control.has-icon-input {
+  padding-right: 60px !important;
+}

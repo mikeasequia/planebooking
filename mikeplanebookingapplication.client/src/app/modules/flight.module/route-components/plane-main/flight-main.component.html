@@ -1,0 +1,17 @@
+<div class="card-body flight-body">
+    <div class="header">
+        <h3>List of Flights</h3>
+        <button class="btn btn-info btn-sm add-flight" (click)="AddFlight()">Add</button>
+    </div>
+    <table datatable id="flights_table" [dtOptions]="dtOptions" class="display table table-bordered table-hover" style="width:100%">
+      <thead>
+        <tr>
+          <th>Flight</th>
+          <th>Airport</th>
+          <th>Plane</th>
+          <th>Pilot</th>
+          <th class="dt-head-center">Action</th>
+        </tr>
+      </thead>
+    </table>
+</div>

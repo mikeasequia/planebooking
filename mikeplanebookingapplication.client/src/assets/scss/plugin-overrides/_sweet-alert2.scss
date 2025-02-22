@@ -1,0 +1,78 @@
+.swal2-container > .swal-custom-class {
+  padding: 0 0 15px 0;
+
+  .swal2-header {
+    background-color: #f28d1a;
+    padding-top: 10px;
+    border-top-left-radius: .3125em;
+    border-top-right-radius: .3125em;
+
+    .swal2-title {
+      color: #fff;
+      font-size: 20px;
+
+      .fa {
+        margin-right: 5px;
+        padding-top: 1px;
+      }
+    }
+  }
+
+  .swal2-content {
+    padding-top: 20px;
+  }
+
+  .swal2-actions {
+    margin: auto;
+    flex-wrap: wrap;
+
+    .btn {
+      width: auto;
+      margin: 0px 2px;
+    }
+  }
+}
+
+body.swal2-iosfix {
+  position: static;
+}
+
+//horse
+.toastr-market-icon-1 {
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  background: url(/assets/images/black/horse_32.png) no-repeat center center;
+  background-size: contain;
+
+  &.multis-img {
+    width: 25px;
+    height: 25px;
+  }
+}
+//harness
+.toastr-market-icon-2 {
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  background: url(/assets/images/black/harness_32.png) no-repeat center center;
+  background-size: contain;
+
+  &.multis-img {
+    width: 25px;
+    height: 25px;
+  }
+}
+//dogs
+.toastr-market-icon-3 {
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  background: url(/assets/images/black/dogs_32.png) no-repeat center center;
+  background-size: contain;
+
+  &.multis-img {
+    width: 25px;
+    height: 25px;
+  }
+}

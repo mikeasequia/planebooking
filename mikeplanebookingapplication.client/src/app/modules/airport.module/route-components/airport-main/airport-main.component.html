@@ -1,0 +1,15 @@
+<div class="card-body airport-body">
+    <div class="header">
+        <h3>List of Airports</h3>
+        <button class="btn btn-info btn-sm add-airport" (click)="AddAirport()">Add</button>
+    </div>
+    <table datatable id="airports_table" [dtOptions]="dtOptions" class="display table table-bordered table-hover" style="width:100%">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+          <th class="dt-head-center no-sort">Action</th>
+        </tr>
+      </thead>
+    </table>
+</div>

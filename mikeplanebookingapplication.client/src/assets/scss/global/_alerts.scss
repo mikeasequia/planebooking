@@ -1,0 +1,69 @@
+.alert {
+  border: 0;
+  border-radius: 5px;
+  color: white;
+  position: relative;
+  line-height: 20px;
+  margin-bottom: 10px;
+
+  &.alert-success {
+    background-color: lighten(green, 5%);
+  }
+
+  &.alert-danger {
+    background-color: lighten(red, 5%);
+  }
+
+  &.alert-warning {
+    background-color: lighten(yellow, 5%);
+  }
+
+  &.alert-info {
+    background-color: lighten(blue, 5%);
+  }
+
+  &.alert-primary {
+    background-color: lighten(grey, 5%);
+  }
+
+  i.fa,
+  i.now-ui-icons {
+    font-size: 20px;
+  }
+
+  .close {
+    color: white;
+    opacity: 0.9;
+    text-shadow: none;
+    line-height: 0;
+    outline: 0;
+  }
+
+  span[data-notify="icon"] {
+    font-size: 22px;
+    display: block;
+    left: 19px;
+    position: absolute;
+    top: 50%;
+    margin-top: -11px;
+  }
+
+  button.close {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -13px;
+    width: 25px;
+    height: 25px;
+    padding: 3px;
+  }
+
+  .close ~ span {
+    display: block;
+    max-width: 89%;
+  }
+
+  &.alert-with-icon {
+    padding-left: 65px;
+  }
+}

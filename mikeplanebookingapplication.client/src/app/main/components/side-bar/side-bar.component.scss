@@ -1,0 +1,35 @@
+@import '/src/assets/scss/variables';
+
+/* Navigation bar container */
+.navbar {
+  background-color: $theme-bg;
+  padding: 1rem 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+
+  .header {
+    font-size: 20px;
+    color: $theme-palette-2;
+
+    &:hover {
+      color: darken($theme-palette-2, 15%);
+    }
+  }
+}
+
+/* Navigation list */
+.nav-list {
+  list-style-type: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Navigation items */
+.nav-item {
+  margin-left: 2rem;
+}
+

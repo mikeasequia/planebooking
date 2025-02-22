@@ -1,0 +1,277 @@
+.dataTables_wrapper {
+  margin-top: 20px;
+
+  .dataTables_filter {
+    input {
+      margin-left: 0.5em;
+      display: inline-block;
+      width: auto;
+    }
+  }
+
+  table.dataTable {
+    thead {
+      tr {
+        min-width: 100px;
+        background-color: #DDDDDD !important;
+        padding: 8px;
+
+        th {
+          font-size: 14px;
+          color: black;
+          font-weight: bold;
+          border-color: #c3c3c3;
+          background-color: #00a4e5;
+
+          &.th-description {
+            max-width: 150px;
+          }
+        }
+
+        &.child-tr {
+          th {
+            border: 1px solid #c3c3c3;
+          }
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        position: relative;
+
+        td {
+          font-size: 14px;
+          border-color: #e6e2e2;
+
+          @media (max-width: 480px) {
+            font-size: 13px;
+          }
+
+          &.td-right {
+            text-align: right;
+          }
+
+          &.td-left {
+            text-align: right;
+            word-wrap: normal;
+          }
+
+          &.td-center {
+            text-align: center;
+          }
+
+          &.td-nowrap {
+            white-space: nowrap;
+          }
+
+          &.td-actions {
+            .btn {
+              margin: 0px;
+            }
+          }
+
+          &.td-red {
+            background-color: #f44336 !important;
+            color: white;
+          }
+
+          &.td-green {
+            background-color: green !important;
+            color: white;
+          }
+
+          &.td-yellow {
+            background-color: yellow !important;
+          }
+
+          .btn-info {
+            background-color: #027faf;
+            border-color: #027faf;
+            color: white;
+          }
+        }
+
+        &.parent {
+          td:first-child::before {
+            background-color: #ff2d00 !important;
+          }
+        }
+
+        &.child {
+          ul.dtr-details {
+            width: 100%;
+
+            li {
+              display: flex !important;
+            }
+
+            span.dtr-title {
+              max-width: 85px !important;
+              margin-right: 15px;
+              justify-items: middle;
+              min-width: 85px !important;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .dataTables_processing {
+    background-color: white;
+    font-size: 15px;
+  }
+
+  @media (max-width: 767px) {
+    .dataTables_paginate {
+      .pagination {
+        justify-content: center !important;
+      }
+
+      .paginate_button {
+        .page-link {
+          padding: 0px 9px !important;
+        }
+      }
+    }
+  }
+}
+div.dataTables_wrapper {
+  div.dataTables_filter input, div.dataTables_length select { 
+    font-size: 15px !important;
+  }
+}
+.table > tbody > tr > td.td-right .negative-table-amount {
+  color: red;
+  font-family: "Maven Pro", sans-serif;
+}
+
+table.dataTable.dtr-inline.collapsed {
+  > tbody > tr > td.child,
+  > tbody > tr > th.child,
+  > tbody > tr > td.dataTables_empty {
+    cursor: default !important;
+  }
+
+  > tbody > tr > td.child,
+  > tbody > tr > th.child,
+  > tbody > tr > td.dataTables_empty {
+    &:before {
+      display: none !important;
+    }
+  }
+
+  > tbody > tr > td:first-child,
+  > tbody > tr > th:first-child {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+  }
+
+  > tbody > tr.odd > td:first-child,
+  > tbody > tr.even > td:first-child,
+  > tbody > tr > th:first-child {
+    &:before {
+      top: 14px;
+      left: 4px;
+      height: 14px;
+      width: 14px;
+      display: block;
+      position: absolute;
+      color: #fff;
+      border: 2px solid #fff;
+      border-radius: 14px;
+      box-shadow: 0 0 3px #444;
+      box-sizing: content-box;
+      text-align: center;
+      text-indent: 0 !important;
+      font-family: 'Courier New',Courier,monospace;
+      line-height: 14px;
+      content: '+';
+      background-color: #0275d8;
+
+      @media(max-width: 500px) {
+        top: 13px;
+      }
+    }
+  }
+
+  > tbody > tr.parent > td:first-child,
+  > tbody > tr.parent > th:first-child {
+    &:before {
+      content: '-';
+      color: white;
+    }
+  }
+
+  > tbody > tr.child td {
+    &:before {
+      display: none;
+    }
+  }
+}
+
+
+table.dataTable.dtr-inline.collapsed.compact {
+  > tbody > tr > td,
+  > tbody > tr > th {
+    &:first-child {
+      padding-left: 27px;
+    }
+  }
+
+  > tbody > tr > td,
+  > tbody > tr > th {
+    &:first-child:before {
+      top: 5px;
+      left: 4px;
+      height: 14px;
+      width: 14px;
+      border-radius: 14px;
+      line-height: 14px;
+      text-indent: 3px;
+    }
+  }
+}
+
+table.dataTable.dtr-column {
+  > tbody > tr > td.control,
+  > tbody > tr > th.control {
+    position: relative;
+    cursor: pointer;
+  }
+
+  > tbody > tr > td.control,
+  > tbody > tr > th.control {
+    &:before {
+      top: 12px;
+      left: 4px;
+      height: 14px;
+      width: 14px;
+      display: block;
+      position: absolute;
+      color: #fff;
+      border: 2px solid #fff;
+      border-radius: 14px;
+      box-shadow: 0 0 3px #444;
+      box-sizing: content-box;
+      text-align: center;
+      text-indent: 0 !important;
+      font-family: 'Courier New',Courier,monospace;
+      line-height: 14px;
+      content: '+';
+      background-color: #0275d8;
+    }
+  }
+
+  > tbody > tr.parent td.control,
+  > tbody > tr.parent th.control {
+    &:before {
+      content: '-';
+      background-color: #d33333;
+    }
+  }
+}
+

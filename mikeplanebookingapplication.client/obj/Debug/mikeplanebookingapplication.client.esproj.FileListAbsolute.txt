@@ -1,0 +1,2 @@
+C:\MyProjects\MyApp\MikePlaneBookingApplication\mikeplanebookingapplication.client\obj\Debug\mikeplanebookingapplication.client.esproj.CoreCompileInputs.cache
+C:\GithubRepo\planebooking\mikeplanebookingapplication.client\obj\Debug\mikeplanebookingapplication.client.esproj.CoreCompileInputs.cache

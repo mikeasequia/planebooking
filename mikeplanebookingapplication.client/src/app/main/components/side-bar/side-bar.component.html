@@ -1,0 +1,42 @@
+
+<div class="sidebar">
+  <div class="sidebar-wrapper .ps-child">
+    <nav class="navbar">
+      <ul class="nav-list">
+        <li class="nav-item" (click)="toggle('airports')" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }">
+          <a routerLink="/airports" class="header">
+            <i class="now-ui-icons business_bank"></i>
+            <p>
+              Airports
+            </p>
+          </a>
+        </li>
+        <li class="nav-item" (click)="toggle('planes')">
+          <a routerLink="/planes" class="header">
+            <i class="now-ui-icons business_bank"></i>
+            <p>
+              Planes
+            </p>
+          </a>
+        </li>
+        <li class="nav-item" (click)="toggle('flights')">
+          <a routerLink="/flights" class="header">
+            <i class="now-ui-icons business_bank"></i>
+            <p>
+              Flights
+            </p>
+          </a>
+        </li>
+        <li class="nav-item" (click)="toggle('passengers')">
+          <a routerLink="/passenger_bookings" class="header">
+            <i class="now-ui-icons business_bank"></i>
+            <p>
+              Passenger Bookings
+            </p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

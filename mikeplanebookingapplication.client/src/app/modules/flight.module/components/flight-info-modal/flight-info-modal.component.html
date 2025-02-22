@@ -1,0 +1,93 @@
+<div class="flight-info-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title text-center">{{title}}</h3>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="flightForm" (ngSubmit)="submit()">
+                <div>
+                    <div>
+                        <label class="col-form-label">Flight</label>
+                        <div class="form-group">
+                            <input type="text" placeholder="Enter flight" class="form-control"
+                                   formControlName="Flight">
+                        </div>
+                        <!-- Flight error messages -->
+                        <div *ngIf="(flightForm.controls['Flight'].touched || info) && flightForm.controls['Flight'].errors" class="alert alert-danger">
+                            <div *ngIf="flightForm.controls['Flight'].errors">
+                                <small>Sorry, this field cannot be blank.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="col-form-label">Airport</label>
+                        <div class="form-group">
+                            <a *ngIf="airportList && airportList.length <= 0" class="form-control airport-link" routerLink="/airports" (click)="this.activeModal.close(false);">No airport found. Click here to add.</a>
+                            <select *ngIf="airportList && airportList.length > 0" class="form-control" formControlName="AirportId">
+                                <option disabled value="">Select airport</option>
+                                <ng-container *ngFor="let airport of airportList; trackBy:trackByIndex">
+                                    <option value="{{airport.id}}">
+                                        {{airport.name}}
+                                    </option>
+                                </ng-container>
+                            </select>
+                        </div>
+                        <!-- Airport error messages -->
+                        <div *ngIf="(flightForm.controls['AirportId'].touched || info) && flightForm.controls['AirportId'].errors" class="alert alert-danger">
+                            <div *ngIf="flightForm.controls['AirportId'].errors">
+                                <small>Sorry, this field cannot be blank.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="col-form-label">Plane</label>
+                        <div class="form-group">
+                            <a *ngIf="planeList && planeList.length <= 0" class="form-control plane-link" routerLink="/planes" (click)="this.activeModal.close(false);">No plane found. Click here to add.</a>
+                            <select *ngIf="planeList && planeList.length > 0" class="form-control" formControlName="PlaneId">
+                                <option disabled value="">Select plane</option>
+                                <ng-container *ngFor="let plane of planeList; trackBy:trackByIndex">
+                                    <option value="{{plane.id}}">
+                                        {{plane.airline}}
+                                    </option>
+                                </ng-container>
+                            </select>
+                        </div>
+                        <!-- Plane error messages -->
+                        <div *ngIf="(flightForm.controls['PlaneId'].touched || info) && flightForm.controls['PlaneId'].errors" class="alert alert-danger">
+                            <div *ngIf="flightForm.controls['PlaneId'].errors">
+                                <small>Sorry, this field cannot be blank.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="col-form-label">Pilot</label>
+                        <div class="form-group">
+                            <input type="text" placeholder="Enter Pilot" class="form-control"
+                                   formControlName="Pilot">
+                        </div>
+                        <!-- Pilot error messages -->
+                        <div *ngIf="(flightForm.controls['Pilot'].touched || info) && flightForm.controls['Pilot'].errors" class="alert alert-danger">
+                            <div *ngIf="flightForm.controls['Pilot'].errors">
+                                <small>Sorry, this field cannot be blank.</small>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn btn-success save-button"
+                                [disabled]="flightForm.invalid || !this.hasChanges">
+                            Submit
+                        </button>
+                        <button class="btn btn-danger"
+                                (click)="activeModal.close(false)">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+
+                <div class="overlay" *ngIf="IS_BUSY"></div>
+            </form>
+        </div>
+    </div>
+</div>
