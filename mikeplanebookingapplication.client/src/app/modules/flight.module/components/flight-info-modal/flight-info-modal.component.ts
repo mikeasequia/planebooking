@@ -138,7 +138,6 @@ export class FlightInfoModalComponent extends ComponentBase implements OnInit, O
       const airport = this.airportList.find(a => a.id == data.AirportId);
       const plane = this.planeList.find(a => a.id == data.PlaneId);
 
-      console.log(data);
       if (airport && plane) {
         const payload: Flight = {
           id: this.flightInfo.id,
@@ -146,7 +145,7 @@ export class FlightInfoModalComponent extends ComponentBase implements OnInit, O
           airport: airport,
           plane: plane,
           pilot: data.Pilot
-        }
+        };
 
         try {
           this.flightService.AddFlight(payload)
@@ -187,7 +186,7 @@ export class FlightInfoModalComponent extends ComponentBase implements OnInit, O
           airport: airport,
           plane: plane,
           pilot: data.Pilot
-        }
+        };
   
         try {
           this.flightService.UpdateFlight(payload)

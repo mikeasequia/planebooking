@@ -23,6 +23,7 @@ export class FlightService extends ApiBaseService
             "flight": flight.flight,
             "airportId": flight.airport.id,
             "planeId": flight.plane.id,
+            "pilot": flight.pilot
         };
 
         return this.http.post(`${this.BASE_URL()}/api/flight`, payload);
@@ -33,6 +34,7 @@ export class FlightService extends ApiBaseService
             "flight": flight.flight,
             "airportId": flight.airport.id,
             "planeId": flight.plane.id,
+            "pilot": flight.pilot
         };
 
         return this.http.put(`${this.BASE_URL()}/api/flight/`+ flight.id, payload);

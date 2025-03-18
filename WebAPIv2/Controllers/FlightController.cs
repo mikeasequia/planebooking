@@ -55,6 +55,7 @@ namespace WebAPIv2.Controllers
             model.Flight = flight.Flight;
             model.AirportId = flight.AirportId;
             model.PlaneId = flight.PlaneId;
+            model.Pilot = flight.Pilot;
 
 
             //Check if Flight has duplicate Flight
@@ -96,6 +97,7 @@ namespace WebAPIv2.Controllers
             model.Flight = flight.Flight;
             model.AirportId = flight.AirportId;
             model.PlaneId = flight.PlaneId;
+            model.Pilot = flight.Pilot;
 
             await _dbContext.SaveChangesAsync();
 
