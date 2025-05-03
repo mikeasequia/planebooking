@@ -25,11 +25,6 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var airports = await _airportRepo.GetAllAsync();
             return Ok(airports);
         }
@@ -39,11 +34,6 @@ namespace WebAPI.Controllers
         [Route("GetAllByPaging")]
         public async Task<IActionResult> GetAllByPaging([FromQuery] QueryObject query)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var airports = await _airportRepo.GetAllByPagingAsync(query);
             return Ok(airports);
         }
@@ -52,23 +42,15 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(Airport airport)
         {
-            AirportDataModel model = new AirportDataModel();
-            model.Name = airport.Name;
-            model.Address = airport.Address;
-
-            //Check if Airport has duplicate Name
-            var duplicate = await _dbContext.Airports
-                .Where(a => a.Name.Equals(airport.Name, StringComparison.OrdinalIgnoreCase))
-                .FirstOrDefaultAsync();
-
-            if (duplicate != null)
+            try
             {
-                return BadRequest($"Another airport with name {airport.Name} already exists.");
+                var response = await this._airportRepo.AddAsync(airport);
+                return Ok(response);
             }
-
-            await _dbContext.Airports.AddAsync(model);
-            await _dbContext.SaveChangesAsync();
-            return Ok(model);
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
         }
 
         // PUT: api/Airport/1
@@ -76,11 +58,6 @@ namespace WebAPI.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, Airport airport)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             //Check if Airport exists
             var model = await _dbContext.Airports.FirstOrDefaultAsync(x => x.Id == id);
             if (model == null)
@@ -110,11 +87,6 @@ namespace WebAPI.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             //Check if Airport exists
             var model = await _dbContext.Airports
                 .Include(p => p.Flights)

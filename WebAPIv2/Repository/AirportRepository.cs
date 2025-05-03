@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebAPIv2.DataModel;
 using WebAPIv2.DBContext;
+using WebAPIv2.Exceptions;
 using WebAPIv2.Helpers;
 using WebAPIv2.Interfaces;
 using WebAPIv2.Model;
@@ -51,7 +52,7 @@ namespace WebAPIv2.Repository
             //check if pageNumber and pageSize are valid
             if (query.pageNumber < 1 || query.pageSize < 1)
             {
-                throw new ArgumentException("Page number and page size must be greater than 0");
+                throw new Exception("Page number and page size must be greater than 0");
             }
 
             var items = await model.Skip(skip).Take(query.pageSize).ToListAsync();
@@ -73,15 +74,15 @@ namespace WebAPIv2.Repository
             model.Name = airport.Name;
             model.Address = airport.Address;
 
-            ////Check if Airport has duplicate Name
-            //var duplicate = await _dbContext.Airports
-            //    .Where(a => a.Name == airport.Name)
-            //    .FirstOrDefaultAsync();
+            //Check if Airport has duplicate Name
+            var duplicate = await _dbContext.Airports
+                .Where(a => a.Name == airport.Name)
+                .FirstOrDefaultAsync();
 
-            //if (duplicate != null)
-            //{
-            //    return BadRequest($"Another airport with name {airport.Name} already exists.");
-            //}
+            if (duplicate != null)
+            {
+                throw new Exception($"Another airport with name {airport.Name} already exists.");
+            }
 
             await _dbContext.Airports.AddAsync(model);
             await _dbContext.SaveChangesAsync();

@@ -102,8 +102,9 @@ export class AirportInfoModalComponent extends ComponentBase implements OnInit, 
           (err) => {
             let errmsg = "An error occured.";
 
-            if (err) { 
-              if(err.status == 400) errmsg = err.error; //Bad request
+            if (err) {
+              //Bad request
+              if(err.status == 400) errmsg = err.error.error;
             }
 
             this.util.ShowNotificationMessage(errmsg, "error");
