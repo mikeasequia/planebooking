@@ -44,7 +44,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var response = await this._airportRepo.AddAsync(airport);
+                var response = await _airportRepo.AddAsync(airport);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -58,28 +58,15 @@ namespace WebAPI.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, Airport airport)
         {
-            //Check if Airport exists
-            var model = await _dbContext.Airports.FirstOrDefaultAsync(x => x.Id == id);
-            if (model == null)
+            try
             {
-                return NotFound();
+                var response = await _airportRepo.UpdateAsync(id, airport);
+                return Ok(response);
             }
-
-            //Check if Airport has duplicate Name
-            var duplicateName = await _dbContext.Airports
-                .Where(a => model.Id != a.Id && a.Name == airport.Name) // exclude the Airport that is being updated
-                .FirstOrDefaultAsync();
-            if (duplicateName != null)
+            catch (Exception ex)
             {
-                return BadRequest($"Another airport with name {airport.Name} already exists.");
+                return BadRequest(new { error = ex.Message });
             }
-
-            model.Name = airport.Name;
-            model.Address = airport.Address;
-
-            await _dbContext.SaveChangesAsync();
-
-            return Ok(model);
         }
 
         // DELETE: api/Airport/1

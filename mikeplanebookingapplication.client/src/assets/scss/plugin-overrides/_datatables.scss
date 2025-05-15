@@ -21,7 +21,9 @@
           color: black;
           font-weight: bold;
           border-color: #c3c3c3;
-          background-color: #00a4e5;
+          background-color: white;
+          border-top: 1px solid black;
+          border-bottom: 1px solid black;
 
           &.th-description {
             max-width: 150px;
