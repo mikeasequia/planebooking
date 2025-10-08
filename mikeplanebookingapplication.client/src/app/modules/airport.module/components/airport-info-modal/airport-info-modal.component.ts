@@ -7,6 +7,7 @@ import { ComponentBase } from "src/app/common/component-base";
 import { UtilitiesService } from "src/app/infrastructure/data.module/services/utilities.service";
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { SharedService } from "src/app/infrastructure/data.module/services/shared.service";
 
 @Component({
   templateUrl: "./airport-info-modal.component.html",
@@ -33,7 +34,8 @@ export class AirportInfoModalComponent extends ComponentBase implements OnInit, 
     private fb: FormBuilder,
     public activeModal: NgbActiveModal,
     private airportService: AirportService,
-    private util: UtilitiesService
+    private util: UtilitiesService,
+    private sharedService: SharedService
   ) {
     super();
   }
@@ -94,20 +96,15 @@ export class AirportInfoModalComponent extends ComponentBase implements OnInit, 
       try {
         this.airportService.AddAirport(payload)
           .pipe(takeUntil(this.destroy$))
-          .subscribe(response => {
-            this.airportInfo = payload;
-            this.util.ShowNotificationMessage("Successfully added new airport!", "success", "");
-            this.activeModal.close('OK');
-          },
-          (err) => {
-            let errmsg = "An error occured.";
-
-            if (err) {
-              //Bad request
-              if(err.status == 400) errmsg = err.error.error;
+          .subscribe({
+            next: response => {
+              this.airportInfo = payload;
+              this.util.ShowNotificationMessage("Successfully added new airport!", "success", "");
+              this.activeModal.close('OK');
+            },
+            error: (err) => {
+              this.sharedService.handleFormError(err, this.airportForm);
             }
-
-            this.util.ShowNotificationMessage(errmsg, "error");
           }
         );
 
@@ -129,21 +126,15 @@ export class AirportInfoModalComponent extends ComponentBase implements OnInit, 
       try {
         this.airportService.UpdateAirport(payload)
           .pipe(takeUntil(this.destroy$))
-          .subscribe(response => {
-            this.airportInfo = payload;
-            this.util.ShowNotificationMessage("Successfully updated information!", "success", "");
-            //this.pubsub.Broadcast("OnIsBusy", false);
-            this.activeModal.close('OK');
-          },
-          (err) => {
-            let errmsg = "An error occured.";
-
-            if (err) {
-              //Bad request
-              if (err.status == 400) errmsg = err.error.error;
+          .subscribe({
+            next: (response) => {
+              this.airportInfo = payload;
+              this.util.ShowNotificationMessage("Successfully updated information!", "success", "");
+              this.activeModal.close('OK');
+            },
+            error: (err) => {
+              this.sharedService.handleFormError(err, this.airportForm);
             }
-
-            this.util.ShowNotificationMessage(errmsg, "error");
           }
         );
 
