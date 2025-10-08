@@ -12,21 +12,26 @@ namespace WebAPI.Controllers
     [ApiController]
     public class AirportController : ControllerBase
     {
-        private readonly DatabaseContext _dbContext;
         private readonly IAirportRepository _airportRepo;
 
         public AirportController(DatabaseContext dbContext, IAirportRepository airportRepo)
         {
             _airportRepo = airportRepo;
-            _dbContext = dbContext;
         }
 
         // GET: api/Airport
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var airports = await _airportRepo.GetAllAsync();
-            return Ok(airports);
+            try
+            {
+                var airports = await _airportRepo.GetAllAsync();
+                return Ok(airports);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { error = ex.Message });
+            }
         }
 
         // GET: api/Airport/GetAllByPaging
@@ -34,8 +39,15 @@ namespace WebAPI.Controllers
         [Route("GetAllByPaging")]
         public async Task<IActionResult> GetAllByPaging([FromQuery] QueryObject query)
         {
-            var airports = await _airportRepo.GetAllByPagingAsync(query);
-            return Ok(airports);
+            try
+            {
+                var airports = await _airportRepo.GetAllByPagingAsync(query);
+                return Ok(airports);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { error = ex.Message });
+            }
         }
 
         // POST: api/Airport
@@ -49,7 +61,7 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error = ex.Message });
+                return NotFound(new { error = ex.Message });
             }
         }
 
@@ -65,7 +77,7 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error = ex.Message });
+                return NotFound(new { error = ex.Message });
             }
         }
 
@@ -76,11 +88,20 @@ namespace WebAPI.Controllers
         {
             try
             {
-                return await _airportRepo.DeleteAsync(id);
+                var response = await _airportRepo.DeleteAsync(id);
+
+                if (response)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error = ex.Message });
+                return NotFound(new { error = ex.Message });
             }
         }
     }

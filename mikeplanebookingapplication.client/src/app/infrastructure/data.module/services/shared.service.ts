@@ -13,8 +13,8 @@ export class SharedService {
         let errmsg = "An error occured.";
 
         if (err) {
-            // Bad request with validation errors
-            if (err.status == 400) {
+            // Not found with validation errors
+            if (err.status == 404) {
                 const apiErrors = err.error?.errors;
                 if (apiErrors && form) {
                     Object.keys(apiErrors).forEach(field => {

@@ -11,6 +11,6 @@ namespace WebAPIv2.Interfaces
         Task<PaginatedResult<AirportDataModel>> GetAllByPagingAsync(QueryObject query);
         Task<AirportDataModel> AddAsync(Airport airport);
         Task<AirportDataModel> UpdateAsync(int id, Airport airport);
-        Task<IActionResult> DeleteAsync(int id);
+        Task<bool> DeleteAsync(int id);
     }
 }

@@ -115,7 +115,7 @@ namespace WebAPIv2.Repository
             return model;
         }
 
-        public async Task<IActionResult> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             //Check if Airport exists
             var model = await _dbContext.Airports
@@ -138,7 +138,7 @@ namespace WebAPIv2.Repository
 
             await _dbContext.SaveChangesAsync();
 
-            return NoContent();
+            return true;
         }
     }
 }
