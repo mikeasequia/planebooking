@@ -115,30 +115,30 @@ namespace WebAPIv2.Repository
             return model;
         }
 
-        //public async Task<AirportDataModel> DeleteAsync()
-        //{
-            ////Check if Airport exists
-            //var model = await _dbContext.Airports
-            //    .Include(p => p.Flights)
-            //    .Where(x => x.Id == id)
-            //    .FirstOrDefaultAsync();
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            //Check if Airport exists
+            var model = await _dbContext.Airports
+                .Include(p => p.Flights)
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
 
-            //if (model == null)
-            //{
-            //    return NotFound();
-            //}
+            if (model == null)
+            {
+                throw new Exception("Not Found");
+            }
 
-            ////Check if Airport has existing Flights
-            //if (model.Flights.Any())
-            //{
-            //    return BadRequest("Cannot delete Airport with existing Flights.");
-            //}
+            //Check if Airport has existing Flights
+            if (model.Flights.Any())
+            {
+                throw new Exception("Cannot delete Airport with existing Flights.");
+            }
 
-            //_dbContext.Airports.Remove(model);
+            _dbContext.Airports.Remove(model);
 
-            //await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
 
-            //return NoContent();
-        //}
+            return NoContent();
+        }
     }
 }

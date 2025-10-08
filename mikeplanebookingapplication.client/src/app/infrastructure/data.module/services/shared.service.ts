@@ -9,14 +9,14 @@ export class SharedService {
     ) {}
 
     // Add shared methods or properties here
-    handleFormError(err: any, form: FormGroup<any>): void {
+    handleResponseError(err: any, form?: FormGroup<any>): void {
         let errmsg = "An error occured.";
 
         if (err) {
             // Bad request with validation errors
             if (err.status == 400) {
                 const apiErrors = err.error?.errors;
-                if (apiErrors) {
+                if (apiErrors && form) {
                     Object.keys(apiErrors).forEach(field => {
                     if (form.controls[field]) {
                         // Set the first error message as a form error

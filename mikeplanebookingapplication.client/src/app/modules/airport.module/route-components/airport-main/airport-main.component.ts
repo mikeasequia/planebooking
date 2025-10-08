@@ -5,9 +5,10 @@ import { Airport } from 'src/app/infrastructure/data.module/models/airport';
 import { AirportService } from 'src/app/infrastructure/data.module/services/airport.service';
 import { AirportInfoModalComponent } from '../../components/airport-info-modal/airport-info-modal.component';
 import { UtilitiesService } from 'src/app/infrastructure/data.module/services/utilities.service';
-import * as _ from 'underscore';
 import { QueryParam } from 'src/app/infrastructure/data.module/models/queryParam';
 import { PaginatedResult } from 'src/app/infrastructure/data.module/models/paginatedResult';
+import { SharedService } from 'src/app/infrastructure/data.module/services/shared.service';
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-airport-main',
@@ -25,7 +26,8 @@ export class AirportMainComponent implements OnInit, OnDestroy, AfterViewInit {
     private airportApi: AirportService,
     private renderer: Renderer2,
     private modalRef: NgbModal,
-    private util: UtilitiesService
+    private util: UtilitiesService,
+    private sharedService: SharedService,
   ) {
     
   }
@@ -44,76 +46,52 @@ export class AirportMainComponent implements OnInit, OnDestroy, AfterViewInit {
       ajax: (dataTablesParameters: any, callback) => {
 
         let source: Airport[] = [];
-        //this.airportApi.GetAirports().subscribe(
-        //    (resp) => {
-        //      if (resp != null) {
-        //        for (let x of resp) {
-        //          source.push({
-        //            name: x.name,
-        //            address: x.address,
-        //            id: x.id
-        //          });
-        //        }
-  
-        //        this.airportList = resp;
-        //      }
-  
-        //      callback({
-        //        data: source,
-        //        draw: dataTablesParameters.draw,
-        //        recordsFiltered: resp.length,
-        //        recordsTotal: resp.length
-        //      });
-        //    }
-        //  );
-        
+        let pageNum = 0;
+        let column = "0";
+        let isDesc = false;
+        let recordsFilteredNum = 0;
 
-         let pageNum = 0;
-         let column = "0";
-         let isDesc = false;
-         let recordsFilteredNum = 0;
+        if (dataTablesParameters.start !== 0) {
+          pageNum = (dataTablesParameters.start / dataTablesParameters.length) + 1;
+        }
 
-         if (dataTablesParameters.start !== 0) {
-           pageNum = (dataTablesParameters.start / dataTablesParameters.length) + 1;
-         }
+        if (dataTablesParameters.order.length > 0) {
+          column = dataTablesParameters.order[0].column.toString();
+          isDesc = dataTablesParameters.order[0].dir == "desc";
+        }
 
-         if (dataTablesParameters.order.length > 0) {
-           column = dataTablesParameters.order[0].column.toString();
-           isDesc = dataTablesParameters.order[0].dir == "desc";
-         }
+        const payload: QueryParam = {
+          search: dataTablesParameters.search.value,
+          column: column,
+          isDesc: isDesc,
+          pageNumber: dataTablesParameters.start === 0 ? 1 : pageNum,
+          pageSize: dataTablesParameters.length
+        }
 
-         const payload: QueryParam = {
-           search: dataTablesParameters.search.value,
-           column: column,
-           isDesc: isDesc,
-           pageNumber: dataTablesParameters.start === 0 ? 1 : pageNum,
-           pageSize: dataTablesParameters.length
-         }
+        this.airportApi.GetAirportsByPaging(payload).subscribe(
+          (resp: PaginatedResult<Airport>) => {
+            if (resp != null) {
+              for (let x of resp.items) {
+                source.push({
+                  name: x.name,
+                  address: x.address,
+                  id: x.id
+                });
+              }
 
-         this.airportApi.GetAirportsByPaging(payload).subscribe(
-           (resp: PaginatedResult<Airport>) => {
-             if (resp != null) {
-               for (let x of resp.items) {
-                 source.push({
-                   name: x.name,
-                   address: x.address,
-                   id: x.id
-                 });
-               }
+              this.airportList = resp.items;
+            }
 
-               this.airportList = resp.items;
-             }
+            recordsFilteredNum = dataTablesParameters.search.value === '' ? resp.totalItems : resp.totalItems;
 
-             recordsFilteredNum = dataTablesParameters.search.value === '' ? resp.totalItems : resp.totalItems;
-
-             callback({
-               data: source,
-               draw: dataTablesParameters.draw,
-               recordsFiltered: recordsFilteredNum,
-               recordsTotal: resp.totalItems
-             });
-           }
-         );
+            callback({
+              data: source,
+              draw: dataTablesParameters.draw,
+              recordsFiltered: recordsFilteredNum,
+              recordsTotal: resp.totalItems
+            });
+          }
+        );
       },
       columns: [
         { data: 'name' },
@@ -175,13 +153,7 @@ export class AirportMainComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.refreshDataTable();
               },
               (err) => {
-                let errmsg = "An error occured.";
-
-                if (err) { 
-                  if(err.status == 400) errmsg = err.error; //Bad request
-                }
-
-                this.util.ShowNotificationMessage(errmsg, "error");
+                this.sharedService.handleResponseError(err);
               }
             );
           }

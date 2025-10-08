@@ -1,4 +1,5 @@
-﻿using WebAPIv2.DataModel;
+﻿using Microsoft.AspNetCore.Mvc;
+using WebAPIv2.DataModel;
 using WebAPIv2.Helpers;
 using WebAPIv2.Model;
 
@@ -10,5 +11,6 @@ namespace WebAPIv2.Interfaces
         Task<PaginatedResult<AirportDataModel>> GetAllByPagingAsync(QueryObject query);
         Task<AirportDataModel> AddAsync(Airport airport);
         Task<AirportDataModel> UpdateAsync(int id, Airport airport);
+        Task<IActionResult> DeleteAsync(int id);
     }
 }

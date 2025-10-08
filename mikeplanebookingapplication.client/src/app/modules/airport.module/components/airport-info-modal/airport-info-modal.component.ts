@@ -103,7 +103,7 @@ export class AirportInfoModalComponent extends ComponentBase implements OnInit, 
               this.activeModal.close('OK');
             },
             error: (err) => {
-              this.sharedService.handleFormError(err, this.airportForm);
+              this.sharedService.handleResponseError(err, this.airportForm);
             }
           }
         );
@@ -133,7 +133,7 @@ export class AirportInfoModalComponent extends ComponentBase implements OnInit, 
               this.activeModal.close('OK');
             },
             error: (err) => {
-              this.sharedService.handleFormError(err, this.airportForm);
+              this.sharedService.handleResponseError(err, this.airportForm);
             }
           }
         );

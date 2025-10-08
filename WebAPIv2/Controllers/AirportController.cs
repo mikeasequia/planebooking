@@ -74,28 +74,14 @@ namespace WebAPI.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            //Check if Airport exists
-            var model = await _dbContext.Airports
-                .Include(p => p.Flights)
-                .Where(x => x.Id == id)
-                .FirstOrDefaultAsync();
-
-            if (model == null)
+            try
             {
-                return NotFound();
+                return await _airportRepo.DeleteAsync(id);
             }
-
-            //Check if Airport has existing Flights
-            if (model.Flights.Any())
+            catch (Exception ex)
             {
-                return BadRequest("Cannot delete Airport with existing Flights.");
+                return BadRequest(new { error = ex.Message });
             }
-
-            _dbContext.Airports.Remove(model);
-
-            await _dbContext.SaveChangesAsync();
-
-            return NoContent();
         }
     }
 }
