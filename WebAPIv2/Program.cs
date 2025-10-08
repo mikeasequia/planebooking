@@ -31,6 +31,8 @@ builder.Services.AddDbContext<DatabaseContext>();
 
 //Add Airport Repository
 builder.Services.AddScoped<IAirportRepository, AirportRepository>();
+//Add Plane Repository
+builder.Services.AddScoped<IPlaneRepository, PlaneRepository>();
 
 var app = builder.Build();
 

@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WebAPIv2.DataModel;
-using WebAPIv2.DBContext;
 using WebAPIv2.Helpers;
 using WebAPIv2.Interfaces;
 using WebAPIv2.Model;
@@ -14,7 +11,7 @@ namespace WebAPI.Controllers
     {
         private readonly IAirportRepository _airportRepo;
 
-        public AirportController(DatabaseContext dbContext, IAirportRepository airportRepo)
+        public AirportController(IAirportRepository airportRepo)
         {
             _airportRepo = airportRepo;
         }

@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAPIv2.DataModel;
 using WebAPIv2.DBContext;
+using WebAPIv2.Helpers;
+using WebAPIv2.Interfaces;
 using WebAPIv2.Model;
 
 namespace WebAPIv2.Controllers
@@ -12,17 +13,27 @@ namespace WebAPIv2.Controllers
     public class PlaneController : ControllerBase
     {
         private readonly DatabaseContext _dbContext;
+        private readonly IPlaneRepository _planeRepo;
 
-        public PlaneController(DatabaseContext dbContext)
+        public PlaneController(DatabaseContext dbContext, IPlaneRepository planeRepo)
         {
             _dbContext = dbContext;
+            _planeRepo = planeRepo;
         }
 
         // GET: api/Plane
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _dbContext.Planes.ToListAsync());
+            try
+            {
+                var planes = await _planeRepo.GetAllAsync();
+                return Ok(planes);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { error = ex.Message });
+            }
         }
 
         // POST: api/Plane

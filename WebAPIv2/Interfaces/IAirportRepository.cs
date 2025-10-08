@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WebAPIv2.DataModel;
+﻿using WebAPIv2.DataModel;
 using WebAPIv2.Helpers;
 using WebAPIv2.Model;
 
