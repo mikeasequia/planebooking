@@ -6,6 +6,8 @@ import { PlaneService } from 'src/app/infrastructure/data.module/services/plane.
 import { UtilitiesService } from 'src/app/infrastructure/data.module/services/utilities.service';
 import * as _ from 'underscore';
 import { PlaneInfoModalComponent } from '../../components/plane-info-modal/plane-info-modal.component';
+import { QueryParam } from 'src/app/infrastructure/data.module/models/queryParam';
+import { PaginatedResult } from 'src/app/infrastructure/data.module/models/paginatedResult';
 
 @Component({
   selector: 'app-plane-main',
@@ -30,21 +32,43 @@ export class PlaneMainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this.dtOptions = {
-
       pagingType: 'simple_numbers',
       serverSide: true,
       processing: true,
       responsive: true,
-      ordering: false,
+      ordering: true,
       stateSave: false,
-      searching: false,
+      searching: true,
+      searchDelay: 2000,
       ajax: (dataTablesParameters: any, callback) => {
 
         let source: Plane[] = [];
-        this.planeApi.GetPlanes().subscribe(
-          (resp) => {
+        let pageNum = 0;
+        let column = "0";
+        let isDesc = false;
+        let recordsFilteredNum = 0;
+
+        if (dataTablesParameters.start !== 0) {
+          pageNum = (dataTablesParameters.start / dataTablesParameters.length) + 1;
+        }
+
+        if (dataTablesParameters.order.length > 0) {
+          column = dataTablesParameters.order[0].column.toString();
+          isDesc = dataTablesParameters.order[0].dir == "desc";
+        }
+
+        const payload: QueryParam = {
+          search: dataTablesParameters.search.value,
+          column: column,
+          isDesc: isDesc,
+          pageNumber: dataTablesParameters.start === 0 ? 1 : pageNum,
+          pageSize: dataTablesParameters.length
+        }
+
+        this.planeApi.GetPlanesByPaging(payload).subscribe(
+          (resp: PaginatedResult<Plane>) => {
             if (resp != null) {
-              for (let x of resp) {
+              for (let x of resp.items) {
                 source.push({
                   code: x.code,
                   airline: x.airline,
@@ -53,14 +77,16 @@ export class PlaneMainComponent implements OnInit, OnDestroy, AfterViewInit {
                 });
               }
 
-              this.planeList = resp;
+              this.planeList = resp.items;
             }
+
+            recordsFilteredNum = dataTablesParameters.search.value === '' ? resp.totalItems : resp.totalItems;
 
             callback({
               data: source,
               draw: dataTablesParameters.draw,
-              recordsFiltered: source.length,
-              recordsTotal: source.length
+              recordsFiltered: recordsFilteredNum,
+              recordsTotal: resp.totalItems
             });
           }
         );
@@ -90,10 +116,16 @@ export class PlaneMainComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           targets: [0],
           width: '20%'
-        },{
-          targets: [1, 2],
+        },
+        {
+          targets: [1],
           width: '30%'
-        }, {
+        },
+        {
+          targets: [2],
+          width: '30%'
+        },
+        {
           targets: [3],
           width: '20%'
         }

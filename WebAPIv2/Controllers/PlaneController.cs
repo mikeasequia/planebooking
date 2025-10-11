@@ -36,6 +36,22 @@ namespace WebAPIv2.Controllers
             }
         }
 
+        // GET: api/Plane/GetAllByPaging
+        [HttpGet]
+        [Route("GetAllByPaging")]
+        public async Task<IActionResult> GetAllByPaging([FromQuery] QueryObject query)
+        {
+            try
+            {
+                var planes = await _planeRepo.GetAllByPagingAsync(query);
+                return Ok(planes);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { error = ex.Message });
+            }
+        }
+
         // POST: api/Plane
         [HttpPost]
         public async Task<IActionResult> Add(Plane plane)

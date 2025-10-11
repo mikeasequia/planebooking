@@ -7,5 +7,6 @@ namespace WebAPIv2.Interfaces
     public interface IPlaneRepository
     {
         Task<List<PlaneDataModel>> GetAllAsync();
+        Task<PaginatedResult<PlaneDataModel>> GetAllByPagingAsync(QueryObject query);
     }
 }
