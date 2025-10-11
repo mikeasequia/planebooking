@@ -34,15 +34,14 @@ export class AirportMainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this.dtOptions = {
-
       pagingType: 'simple_numbers',
       serverSide: true,
       processing: true,
       responsive: true,
-      ordering: true, //false
+      ordering: true,
       stateSave: false,
-      searching: true, //false
-      searchDelay: 5000,
+      searching: true,
+      searchDelay: 2000,
       ajax: (dataTablesParameters: any, callback) => {
 
         let source: Airport[] = [];
@@ -116,11 +115,16 @@ export class AirportMainComponent implements OnInit, OnDestroy, AfterViewInit {
       columnDefs: [
         //width
         {
-          targets: [0, 1],
-          width: '20%'
-        }, {
+          targets: [0],
+          width: '40%'
+        },
+        {
+          targets: [1],
+          width: '40%'
+        },
+        {
           targets: [2],
-          width: '10%'
+          width: '20%'
         },
 
         //no sort
