@@ -128,28 +128,21 @@ export class PlaneInfoModalComponent extends ComponentBase implements OnInit, On
       try {
         this.planeService.UpdatePlane(payload)
           .pipe(takeUntil(this.destroy$))
-          .subscribe(response => {
-            this.planeInfo = payload;
-            this.util.ShowNotificationMessage("Successfully updated information!", "success", "");
-            //this.pubsub.Broadcast("OnIsBusy", false);
-            this.activeModal.close('OK');
-          },
-          (err) => {
-            let errmsg = "An error occured.";
-
-            if (err) { 
-              if(err.status == 400) errmsg = err.error; //Bad request
+          .subscribe({
+            next: () => {
+              this.planeInfo = payload;
+              this.util.ShowNotificationMessage("Successfully updated information!", "success", "");
+              this.activeModal.close('OK');
+            },
+            error: (err) => {
+              this.sharedService.handleResponseError(err, this.planeForm);
             }
-
-            this.util.ShowNotificationMessage(errmsg, "error");
-          }
+          } 
         );
 
       } catch (e) {
         console.log(e);
       }
-
-      
     }
   }
 

@@ -61,7 +61,7 @@ namespace WebAPIv2.Repository
             var items = await model.Skip(skip).Take(query.pageSize).ToListAsync();
 
             //calculate total rows for the entire table (without filtering)
-            int totalRows = await _dbContext.Airports.CountAsync();
+            int totalRows = await _dbContext.Planes.CountAsync();
 
 
             return new PaginatedResult<PlaneDataModel>
@@ -89,6 +89,34 @@ namespace WebAPIv2.Repository
 
             await _dbContext.Planes.AddAsync(model);
             await _dbContext.SaveChangesAsync();
+            return model;
+        }
+
+        public async Task<PlaneDataModel> UpdateAsync(int id, Plane plane)
+        {
+            //Check if Plane exists
+            var model = await _dbContext.Planes.FirstOrDefaultAsync(x => x.Id == id);
+            if (model == null)
+            {
+                throw new Exception("Not Found");
+            }
+
+            //Check if Planes has duplicate Code
+            var duplicate = await _dbContext.Planes
+                .Where(a => a.Id != model.Id && a.Code == plane.Code)
+                .FirstOrDefaultAsync();
+
+            if (duplicate != null)
+            {
+                throw new Exception($"Another plane with code {plane.Code} already exists.");
+            }
+
+            model.Code = plane.Code;
+            model.Airline = plane.Airline;
+            model.Model = plane.Model;
+
+            await _dbContext.SaveChangesAsync();
+
             return model;
         }
     }

@@ -72,30 +72,15 @@ namespace WebAPIv2.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, Plane plane)
         {
-            //Check if Plane exists
-            var model = await _dbContext.Planes.FirstOrDefaultAsync(x => x.Id == id);
-            if (model == null)
+            try
             {
-                return NotFound();
+                var response = await _planeRepo.UpdateAsync(id, plane);
+                return Ok(response);
             }
-
-            //Check if Planes has duplicate Code
-            var duplicateAirport = await _dbContext.Planes
-                .Where(a => a.Id != model.Id && a.Code == plane.Code)
-                .FirstOrDefaultAsync();
-
-            if (duplicateAirport != null)
+            catch (Exception ex)
             {
-                return BadRequest($"Another plane with code {plane.Code} already exists.");
+                return NotFound(new { error = ex.Message });
             }
-
-            model.Code = plane.Code;
-            model.Airline = plane.Airline;
-            model.Model = plane.Model;
-
-            await _dbContext.SaveChangesAsync();
-
-            return Ok(model);
         }
 
         // DELETE: api/Plane/1
