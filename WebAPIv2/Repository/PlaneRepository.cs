@@ -119,5 +119,30 @@ namespace WebAPIv2.Repository
 
             return model;
         }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            //Check if Plane exists
+            var model = await _dbContext.Planes
+                .Include(x => x.Flights)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (model == null)
+            {
+                throw new Exception("Not Found");
+            }
+
+            //Check if Plane has existing Flights
+            if (model.Flights.Any())
+            {
+                throw new Exception("Cannot delete Plane with existing Flights.");
+            }
+
+            _dbContext.Planes.Remove(model);
+
+            await _dbContext.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

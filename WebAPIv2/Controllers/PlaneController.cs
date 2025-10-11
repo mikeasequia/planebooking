@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WebAPIv2.DataModel;
-using WebAPIv2.DBContext;
 using WebAPIv2.Helpers;
 using WebAPIv2.Interfaces;
 using WebAPIv2.Model;
@@ -12,12 +9,10 @@ namespace WebAPIv2.Controllers
     [ApiController]
     public class PlaneController : ControllerBase
     {
-        private readonly DatabaseContext _dbContext;
         private readonly IPlaneRepository _planeRepo;
 
-        public PlaneController(DatabaseContext dbContext, IPlaneRepository planeRepo)
+        public PlaneController(IPlaneRepository planeRepo)
         {
-            _dbContext = dbContext;
             _planeRepo = planeRepo;
         }
 
@@ -88,27 +83,15 @@ namespace WebAPIv2.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            //Check if Plane exists
-            var model = await _dbContext.Planes
-                .Include(x => x.Flights)
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            if (model == null)
+            try
             {
-                return NotFound();
+                var response = await _planeRepo.DeleteAsync(id);
+                return Ok(response);
             }
-
-            //Check if Plane has existing Flights
-            if (model.Flights.Any())
+            catch (Exception ex)
             {
-                return BadRequest("Cannot delete Plane with existing Flights.");
+                return NotFound(new { error = ex.Message });
             }
-
-            _dbContext.Planes.Remove(model);
-
-            await _dbContext.SaveChangesAsync();
-
-            return NoContent();
         }
     }
 }

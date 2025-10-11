@@ -10,5 +10,6 @@ namespace WebAPIv2.Interfaces
         Task<PaginatedResult<PlaneDataModel>> GetAllByPagingAsync(QueryObject query);
         Task<PlaneDataModel> AddAsync(Plane plane);
         Task<PlaneDataModel> UpdateAsync(int id, Plane plane);
+        Task<bool> DeleteAsync(int id);
     }
 }

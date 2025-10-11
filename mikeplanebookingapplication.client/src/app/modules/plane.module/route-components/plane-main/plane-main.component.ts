@@ -4,10 +4,11 @@ import { DataTableDirective } from 'angular-datatables';
 import { Plane } from 'src/app/infrastructure/data.module/models/plane';
 import { PlaneService } from 'src/app/infrastructure/data.module/services/plane.service';
 import { UtilitiesService } from 'src/app/infrastructure/data.module/services/utilities.service';
-import * as _ from 'underscore';
 import { PlaneInfoModalComponent } from '../../components/plane-info-modal/plane-info-modal.component';
 import { QueryParam } from 'src/app/infrastructure/data.module/models/queryParam';
 import { PaginatedResult } from 'src/app/infrastructure/data.module/models/paginatedResult';
+import { SharedService } from 'src/app/infrastructure/data.module/services/shared.service';
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-plane-main',
@@ -25,7 +26,8 @@ export class PlaneMainComponent implements OnInit, OnDestroy, AfterViewInit {
     private planeApi: PlaneService,
     private renderer: Renderer2,
     private modalRef: NgbModal,
-    private util: UtilitiesService
+    private util: UtilitiesService,
+    private sharedService: SharedService,
   ) {
     
   }
@@ -157,13 +159,7 @@ export class PlaneMainComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.refreshDataTable();
               },
               (err) => {
-                let errmsg = "An error occured.";
-
-                if (err) { 
-                  if(err.status == 400) errmsg = err.error; //Bad request
-                }
-
-                this.util.ShowNotificationMessage(errmsg, "error");
+                this.sharedService.handleResponseError(err);
               }
             );
           }
