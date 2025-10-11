@@ -13,10 +13,9 @@
                                 formControlName="Code">
                         </div>
                         <!-- Code error messages -->
-                        <div *ngIf="(planeForm.controls['Code'].touched || info) && planeForm.controls['Code'].errors" class="alert alert-danger">
-                            <div *ngIf="planeForm.controls['Code'].errors">
-                                <small>Sorry, this field cannot be blank.</small>
-                            </div>
+                        <div *ngIf="(planeForm.controls['Code'].touched || info) && planeForm.controls['Code'].errors as errors" class="alert alert-danger">
+                            <small *ngIf="errors['apiError']">{{ errors['apiError'] }}</small>
+                            <small *ngIf="!errors['apiError']">Sorry, this field cannot be blank.</small>
                         </div>
                     </div>
                     <div>
@@ -26,10 +25,9 @@
                                 formControlName="Airline">
                         </div>
                         <!-- Airline error messages -->
-                        <div *ngIf="(planeForm.controls['Airline'].touched || info) && planeForm.controls['Airline'].errors" class="alert alert-danger">
-                            <div *ngIf="planeForm.controls['Airline'].errors">
-                                <small>Sorry, this field cannot be blank.</small>
-                            </div>
+                        <div *ngIf="(planeForm.controls['Airline'].touched || info) && planeForm.controls['Airline'].errors as errors" class="alert alert-danger">
+                            <small *ngIf="errors['apiError']">{{ errors['apiError'] }}</small>
+                            <small *ngIf="!errors['apiError']">Sorry, this field cannot be blank.</small>
                         </div>
                     </div>
                     <div>
@@ -39,10 +37,9 @@
                                 formControlName="Model">
                         </div>
                         <!-- Model error messages -->
-                        <div *ngIf="(planeForm.controls['Model'].touched || info) && planeForm.controls['Model'].errors" class="alert alert-danger">
-                            <div *ngIf="planeForm.controls['Model'].errors">
-                                <small>Sorry, this field cannot be blank.</small>
-                            </div>
+                        <div *ngIf="(planeForm.controls['Model'].touched || info) && planeForm.controls['Model'].errors as errors" class="alert alert-danger">
+                            <small *ngIf="errors['apiError']">{{ errors['apiError'] }}</small>
+                            <small *ngIf="!errors['apiError']">Sorry, this field cannot be blank.</small>
                         </div>
                     </div>
 

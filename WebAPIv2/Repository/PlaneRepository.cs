@@ -4,6 +4,7 @@ using WebAPIv2.DataModel;
 using WebAPIv2.DBContext;
 using WebAPIv2.Helpers;
 using WebAPIv2.Interfaces;
+using WebAPIv2.Model;
 
 namespace WebAPIv2.Repository
 {
@@ -68,6 +69,27 @@ namespace WebAPIv2.Repository
                 Items = items,
                 TotalItems = totalRows
             };
+        }
+
+        public async Task<PlaneDataModel> AddAsync(Plane plane)
+        {
+            PlaneDataModel model = new PlaneDataModel();
+            model.Code = plane.Code;
+            model.Airline = plane.Airline;
+            model.Model = plane.Model;
+
+            //Check if Plane has duplicate Code
+            var duplicate = await _dbContext.Planes
+            .FirstOrDefaultAsync(a => a.Code == plane.Code);
+
+            if (duplicate != null)
+            {
+                throw new Exception($"Another plane with code {plane.Code} already exists.");
+            }
+
+            await _dbContext.Planes.AddAsync(model);
+            await _dbContext.SaveChangesAsync();
+            return model;
         }
     }
 }

@@ -7,6 +7,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PlaneInfoModalComponent } from './components/plane-info-modal/plane-info-modal.component';
+import { SharedService } from 'src/app/infrastructure/data.module/services/shared.service';
 
 
 @NgModule({
@@ -21,6 +22,9 @@ import { PlaneInfoModalComponent } from './components/plane-info-modal/plane-inf
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+  ],
+  providers: [
+    SharedService,
   ]
 })
 export class PlaneModule { }

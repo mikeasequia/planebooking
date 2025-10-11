@@ -56,23 +56,15 @@ namespace WebAPIv2.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(Plane plane)
         {
-            PlaneDataModel model = new PlaneDataModel();
-            model.Code = plane.Code;
-            model.Airline = plane.Airline;
-            model.Model = plane.Model;
-
-            //Check if Plane has duplicate Code
-            var duplicate = await _dbContext.Planes
-            .FirstOrDefaultAsync(a => a.Code == plane.Code);
-
-            if (duplicate != null)
+            try
             {
-                return BadRequest($"Another plane with code {plane.Code} already exists.");
+                var response = await _planeRepo.AddAsync(plane);
+                return Ok(response);
             }
-
-            await _dbContext.Planes.AddAsync(model);
-            await _dbContext.SaveChangesAsync();
-            return Ok(model);
+            catch (Exception ex)
+            {
+                return NotFound(new { error = ex.Message });
+            }
         }
 
         // PUT: api/Plane/1

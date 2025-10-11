@@ -7,6 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Plane } from "src/app/infrastructure/data.module/models/plane";
 import { PlaneService } from "src/app/infrastructure/data.module/services/plane.service";
+import { SharedService } from "src/app/infrastructure/data.module/services/shared.service";
 
 @Component({
   templateUrl: "./plane-info-modal.component.html",
@@ -33,7 +34,8 @@ export class PlaneInfoModalComponent extends ComponentBase implements OnInit, On
     private fb: FormBuilder,
     public activeModal: NgbActiveModal,
     private planeService: PlaneService,
-    private util: UtilitiesService
+    private util: UtilitiesService,
+    private sharedService: SharedService,
   ) {
     super();
   }
@@ -97,22 +99,16 @@ export class PlaneInfoModalComponent extends ComponentBase implements OnInit, On
       try {
         this.planeService.AddPlane(payload)
           .pipe(takeUntil(this.destroy$))
-          .subscribe(response => {
-            this.planeInfo = payload;
-            this.util.ShowNotificationMessage("Successfully added new plane!", "success", "");
-            this.activeModal.close('OK');
-          },
-          (err) => {
-            let errmsg = "An error occured.";
-
-            if (err) { 
-              if(err.status == 400) errmsg = err.error; //Bad request
+          .subscribe({
+            next: () => {
+              this.planeInfo = payload;
+              this.util.ShowNotificationMessage("Successfully added new plane!", "success", "");
+              this.activeModal.close('OK');
+            },
+            error: (err) => {
+              this.sharedService.handleResponseError(err, this.planeForm);
             }
-
-            this.util.ShowNotificationMessage(errmsg, "error");
-          }
-        );
-
+          });
       } catch (e) {
         console.log(e);
       }
@@ -152,8 +148,8 @@ export class PlaneInfoModalComponent extends ComponentBase implements OnInit, On
       } catch (e) {
         console.log(e);
       }
-    
 
+      
     }
   }
 
